@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.my.bookstore.dto.User;
+import com.my.bookstore.service.UserService;
 
 import jakarta.validation.Valid;
 
@@ -16,6 +17,9 @@ public class GeneralController {
 
 	@Autowired
 	User user;
+
+	@Autowired
+	UserService userService;
 
 	@GetMapping("/")
 	public String loadHome() {
@@ -38,6 +42,6 @@ public class GeneralController {
 		if (result.hasErrors())
 			return "Signup";
 		else
-			return "Signin";
+			return userService.signup(user, result);
 	}
 }

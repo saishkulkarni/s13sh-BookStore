@@ -6,4 +6,8 @@ import com.my.bookstore.dto.User;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
 
+	boolean existsByEmail(String email);
+
+	boolean existsByMobile(long mobile);
+
 }

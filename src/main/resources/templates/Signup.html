@@ -74,7 +74,7 @@
 			<div class="form-group">
 				<label for="mobile">Mobile:</label>
 				<input type="tel" class="form-control" id="mobile" name="mobile" th:field="*{mobile}" required />
-				<span th:if="${#fields.hasErrors('mobile')}" th:errors="*{mobile}"></span>
+				<span th:if="${#fields.hasErrors('mobile')}" th:errors="*{mobile}" class="error-message"></span>
 			</div>
 
 			<div class="form-group">
