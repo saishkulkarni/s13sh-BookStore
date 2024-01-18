@@ -10,4 +10,6 @@ public interface UserService {
 	public String signup(User user,BindingResult result);
 
 	public String verifyOtp(int id, int otp, ModelMap map);
+
+	public String resendOtp(int id, ModelMap map);
 }

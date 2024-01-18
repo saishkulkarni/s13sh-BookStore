@@ -58,4 +58,9 @@ public class GeneralController {
 	public String verifyOtp(@RequestParam int otp, @RequestParam int id, ModelMap map) {
 		return userService.verifyOtp(id, otp, map);
 	}
+	
+	@GetMapping("/resend-otp/{id}")
+	public String resendOtp(@PathVariable int id, ModelMap map) {
+		return userService.resendOtp(id,map);
+	}
 }

@@ -52,4 +52,15 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	@Override
+	public String resendOtp(int id, ModelMap map) {
+		User user = userDao.findById(id);
+		user.setOtp(new Random().nextInt(100000, 999999));
+		userDao.save(user);
+		//Resend EMail
+		map.put("id", id);
+		map.put("successMessage", "Otp Sent Again, Check Email");
+		return "EnterOtp";
+	}
+
 }
