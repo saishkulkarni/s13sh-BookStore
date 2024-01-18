@@ -44,4 +44,6 @@ public class User {
 	@Past(message = "* Enter Valid Date")
 	private LocalDate dob;
 	private String role;
+	private int otp;
+	private boolean verified;
 }

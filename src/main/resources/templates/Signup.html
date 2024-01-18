@@ -1,117 +1,181 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up - Book Store</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        background-color: #f8f9fa;
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        padding: 0;
+      }
 
-<head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Sign Up - Book Store</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
-	<style>
-		body {
-			background-color: #f8f9fa;
-			font-family: "Arial", sans-serif;
-			margin: 0;
-			padding: 0;
-		}
+      .container {
+        max-width: 400px;
+        margin: 10px auto;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
 
-		.container {
-			max-width: 400px;
-			margin: 10px auto;
-			padding: 20px;
-			background-color: #ffffff;
-			border-radius: 5px;
-			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-		}
+      h2 {
+        color: #007bff;
+      }
 
-		h2 {
-			color: #007bff;
-		}
+      form {
+        margin-top: 20px;
+      }
 
-		form {
-			margin-top: 20px;
-		}
+      .error-message {
+        color: red;
+        font-size: 12px;
+        margin-top: 5px;
+      }
 
-		.error-message {
-			color: red;
-			font-size: 12px;
-			margin-top: 5px;
-		}
+      span.error-message {
+        color: red;
+        font-size: 10px;
+        /* Adjust the font size as needed */
+        margin-top: 5px;
+      }
 
-		span.error-message {
-			color: red;
-			font-size: 10px;
-			/* Adjust the font size as needed */
-			margin-top: 5px;
-		}
+      footer {
+        background-color: #343a40;
+        color: #ffffff;
+        padding: 15px;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+      }
+    </style>
+  </head>
 
-		footer {
-			background-color: #343a40;
-			color: #ffffff;
-			padding: 15px;
-			position: fixed;
-			bottom: 0;
-			width: 100%;
-		}
-	</style>
-</head>
+  <body>
+    <div class="container">
+      <h2 class="text-center">Sign Up</h2>
+      <form action="/signup" method="post" th:object="${user}">
+        <div class="form-group">
+          <label for="name">Name:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            name="name"
+            th:field="*{name}"
+            required
+          />
+          <span
+            th:if="${#fields.hasErrors('name')}"
+            th:errors="*{name}"
+            class="error-message"
+          ></span>
+        </div>
 
-<body>
-	<div class="container">
-		<h2 class="text-center">Sign Up</h2>
-		<form action="/signup" method="post" th:object="${user}">
-			<div class="form-group">
-				<label for="name">Name:</label>
-				<input type="text" class="form-control" id="name" name="name" th:field="*{name}" required />
-				<span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-message"></span>
-			</div>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="email"
+            th:field="*{email}"
+            required
+          />
+          <span
+            th:if="${#fields.hasErrors('email')}"
+            th:errors="*{email}"
+            class="error-message"
+          ></span>
+        </div>
 
-			<div class="form-group">
-				<label for="email">Email:</label>
-				<input type="email" class="form-control" id="email" name="email" th:field="*{email}" required />
-				<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error-message"></span>
-			</div>
+        <div class="form-group">
+          <label for="mobile">Mobile:</label>
+          <input
+            type="tel"
+            class="form-control"
+            id="mobile"
+            name="mobile"
+            th:field="*{mobile}"
+            required
+          />
+          <span
+            th:if="${#fields.hasErrors('mobile')}"
+            th:errors="*{mobile}"
+            class="error-message"
+          ></span>
+        </div>
 
-			<div class="form-group">
-				<label for="mobile">Mobile:</label>
-				<input type="tel" class="form-control" id="mobile" name="mobile" th:field="*{mobile}" required />
-				<span th:if="${#fields.hasErrors('mobile')}" th:errors="*{mobile}" class="error-message"></span>
-			</div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            name="password"
+            th:field="*{password}"
+            required
+          />
+          <span
+            th:if="${#fields.hasErrors('password')}"
+            th:errors="*{password}"
+            class="error-message"
+          ></span>
+        </div>
 
-			<div class="form-group">
-				<label for="password">Password:</label>
-				<input type="password" class="form-control" id="password" name="password" th:field="*{password}"
-					required />
-				<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-message"></span>
-			</div>
+        <div class="form-group">
+          <label for="gender">Gender:</label>
+          <select
+            class="form-control"
+            th:field="*{gender}"
+            id="gender"
+            name="gender"
+            required
+          >
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+          <span
+            th:if="${#fields.hasErrors('gender')}"
+            th:errors="*{gender}"
+            class="error-message"
+          ></span>
+        </div>
 
-			<div class="form-group">
-				<label for="gender">Gender:</label>
-				<select class="form-control" th:field="*{gender}" id="gender" name="gender" required>
-					<option value="male">Male</option>
-					<option value="female">Female</option>
-					<option value="other">Other</option>
-				</select>
-				<span th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}" class="error-message"></span>
-			</div>
+        <div class="form-group">
+          <label for="dob">DoB:</label>
+          <input
+            type="date"
+            class="form-control"
+            id="dob"
+            name="dob"
+            th:field="*{dob}"
+            required
+          />
+          <span
+            th:if="${#fields.hasErrors('dob')}"
+            th:errors="*{dob}"
+            class="error-message"
+          ></span>
+        </div>
 
-			<div class="form-group">
-				<label for="dob">DoB:</label>
-				<input type="date" class="form-control" id="dob" name="dob" th:field="*{dob}" required />
-				<span th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}" class="error-message"></span>
-			</div>
+        <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+      </form>
 
-			<button type="submit" class="btn btn-primary btn-block">Sign Up</button>
-		</form>
+      <a href="/" class="btn btn-link btn-block mt-3">Back to Home</a>
+    </div>
 
-		<a href="/" class="btn btn-link btn-block mt-3">Back to Home</a>
-	</div>
+    <footer class="py-3 text-center">&copy; 2024 Book Store</footer>
 
-	<footer class="py-3 text-center">&copy; 2024 Book Store</footer>
-
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-</body>
-
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  </body>
 </html>
->

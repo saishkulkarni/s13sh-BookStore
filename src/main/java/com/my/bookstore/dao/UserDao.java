@@ -23,4 +23,8 @@ public class UserDao {
 	public User save(User user) {
 		return userRepository.save(user);
 	}
+
+	public User findById(int id) {
+		return userRepository.findById(id).orElseThrow();
+	}
 }

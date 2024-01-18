@@ -5,7 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.my.bookstore.dto.User;
 import com.my.bookstore.service.UserService;
@@ -43,5 +45,17 @@ public class GeneralController {
 			return "Signup";
 		else
 			return userService.signup(user, result);
+	}
+
+	@GetMapping("/send-otp/{id}")
+	public String sendOtp(@PathVariable int id, ModelMap map) {
+		map.put("id", id);
+		map.put("successMessage", "Otp Sent Success");
+		return "EnterOtp";
+	}
+
+	@PostMapping("/verify-otp")
+	public String verifyOtp(@RequestParam int otp, @RequestParam int id, ModelMap map) {
+		return userService.verifyOtp(id, otp, map);
 	}
 }
