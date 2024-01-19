@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.my.bookstore.dto.User;
 import com.my.bookstore.service.UserService;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -55,8 +56,8 @@ public class GeneralController {
 	}
 
 	@PostMapping("/verify-otp")
-	public String verifyOtp(@RequestParam int otp, @RequestParam int id, ModelMap map) {
-		return userService.verifyOtp(id, otp, map);
+	public String verifyOtp(@RequestParam int otp, @RequestParam int id, ModelMap map,HttpSession session) {
+		return userService.verifyOtp(id, otp, map,session);
 	}
 	
 	@GetMapping("/resend-otp/{id}")

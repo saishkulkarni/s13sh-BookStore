@@ -13,6 +13,8 @@ import com.my.bookstore.helper.AES;
 import com.my.bookstore.helper.MailHelper;
 import com.my.bookstore.service.UserService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -42,11 +44,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String verifyOtp(int id, int otp, ModelMap map) {
+	public String verifyOtp(int id, int otp, ModelMap map,HttpSession session) {
 		User user = userDao.findById(id);
 		if (user.getOtp() == otp) {
 			user.setVerified(true);
 			userDao.save(user);
+			session.setAttribute("successMessage", "Account Created Successfully");
 			return "redirect:/signin";
 		} else {
 			map.put("failMessage", "Invalid Otp, Try Again");
