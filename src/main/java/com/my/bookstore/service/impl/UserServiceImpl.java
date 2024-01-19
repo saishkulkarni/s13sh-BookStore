@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import com.my.bookstore.dao.UserDao;
 import com.my.bookstore.dto.User;
 import com.my.bookstore.helper.AES;
+import com.my.bookstore.helper.MailHelper;
 import com.my.bookstore.service.UserService;
 
 @Service
@@ -17,6 +18,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	UserDao userDao;
+	
+	@Autowired
+	MailHelper mailHelper;
 
 	@Override
 	public String signup(User user, BindingResult result) {
@@ -32,8 +36,7 @@ public class UserServiceImpl implements UserService {
 			user.setPassword(AES.encrypt(user.getPassword(), "123"));
 			user.setOtp(new Random().nextInt(100000, 999999));
 			userDao.save(user);
-			// Sending Mail
-
+		//	mailHelper.sendOtp(user);
 			return "redirect:/send-otp/" + user.getId();
 		}
 	}
@@ -57,7 +60,7 @@ public class UserServiceImpl implements UserService {
 		User user = userDao.findById(id);
 		user.setOtp(new Random().nextInt(100000, 999999));
 		userDao.save(user);
-		//Resend EMail
+		//mailHelper.sendOtp(user);
 		map.put("id", id);
 		map.put("successMessage", "Otp Sent Again, Check Email");
 		return "EnterOtp";
