@@ -15,7 +15,7 @@ public class UserDao {
 	public boolean checkEmailDuplicate(String email) {
 		return userRepository.existsByEmail(email);
 	}
-	
+
 	public boolean checkMobileDuplicate(long mobile) {
 		return userRepository.existsByMobile(mobile);
 	}
@@ -26,5 +26,9 @@ public class UserDao {
 
 	public User findById(int id) {
 		return userRepository.findById(id).orElseThrow();
+	}
+
+	public User findByEmail(String email) {
+		return userRepository.findByEmail(email);
 	}
 }

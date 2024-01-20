@@ -14,4 +14,6 @@ public interface UserService {
 	public String verifyOtp(int id, int otp, ModelMap map, HttpSession session);
 
 	public String resendOtp(int id, ModelMap map);
+
+	public String login(String email, String password, HttpSession session);
 }

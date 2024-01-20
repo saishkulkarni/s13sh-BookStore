@@ -48,12 +48,16 @@
 		<span th:text="${session.successMessage}"></span>
 		<th:block th:text="${@sessionManager.removeSuccessMessage()}"></th:block>
 	</div>
-	
+	<div th:if="${session.failMessage}" class="alert alert-danger" role="alert" id="successAlert">
+		<span th:text="${session.failMessage}"></span>
+		<th:block th:text="${@sessionManager.removeFailMessage()}"></th:block>
+	</div>
+
 	<div class="container">
 		<h2 class="text-center">Login</h2>
 		<form action="/login" method="post">
 			<div class="form-group">
-				<label for="email">Email:</label> <input type="email" class="form-control" id="email" name="email"
+				<label for="email">Email:</label> <input type="text" class="form-control" id="email" name="email"
 					required>
 			</div>
 			<div class="form-group">
@@ -70,6 +74,18 @@
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	<script>
+		setTimeout(function () {
+			var successAlert = document.getElementById('successAlert');
+			var errorAlert = document.getElementById('errorAlert');
+
+			if (successAlert) {
+				successAlert.style.display = 'none';
+			}
+			if (errorAlert) {
+				errorAlert.style.display = 'none';
+			}
+		}, 2000);</script>
 </body>
 
 </html>

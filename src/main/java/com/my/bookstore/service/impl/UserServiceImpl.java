@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	UserDao userDao;
-	
+
 	@Autowired
 	MailHelper mailHelper;
 
@@ -38,13 +38,13 @@ public class UserServiceImpl implements UserService {
 			user.setPassword(AES.encrypt(user.getPassword(), "123"));
 			user.setOtp(new Random().nextInt(100000, 999999));
 			userDao.save(user);
-		//	mailHelper.sendOtp(user);
+			// mailHelper.sendOtp(user);
 			return "redirect:/send-otp/" + user.getId();
 		}
 	}
 
 	@Override
-	public String verifyOtp(int id, int otp, ModelMap map,HttpSession session) {
+	public String verifyOtp(int id, int otp, ModelMap map, HttpSession session) {
 		User user = userDao.findById(id);
 		if (user.getOtp() == otp) {
 			user.setVerified(true);
@@ -63,10 +63,28 @@ public class UserServiceImpl implements UserService {
 		User user = userDao.findById(id);
 		user.setOtp(new Random().nextInt(100000, 999999));
 		userDao.save(user);
-		//mailHelper.sendOtp(user);
+		// mailHelper.sendOtp(user);
 		map.put("id", id);
 		map.put("successMessage", "Otp Sent Again, Check Email");
 		return "EnterOtp";
+	}
+
+	@Override
+	public String login(String email, String password, HttpSession session) {
+		User user = userDao.findByEmail(email);
+		if (user == null) {
+			session.setAttribute("failMessage", "Invalid Email!!!");
+			return "Signin";
+		} else {
+			if (AES.decrypt(user.getPassword(), "123").equals(password)) {
+				session.setAttribute("user", user);
+				session.setAttribute("successMessage", "Login Success");
+				return "redirect:/";
+			} else {
+				session.setAttribute("failMessage", "Invalid Password!!!");
+				return "Signin";
+			}
+		}
 	}
 
 }

@@ -56,12 +56,24 @@ public class GeneralController {
 	}
 
 	@PostMapping("/verify-otp")
-	public String verifyOtp(@RequestParam int otp, @RequestParam int id, ModelMap map,HttpSession session) {
-		return userService.verifyOtp(id, otp, map,session);
+	public String verifyOtp(@RequestParam int otp, @RequestParam int id, ModelMap map, HttpSession session) {
+		return userService.verifyOtp(id, otp, map, session);
 	}
-	
+
 	@GetMapping("/resend-otp/{id}")
 	public String resendOtp(@PathVariable int id, ModelMap map) {
-		return userService.resendOtp(id,map);
+		return userService.resendOtp(id, map);
+	}
+
+	@PostMapping("/login")
+	public String login(@RequestParam String email, @RequestParam String password, HttpSession session) {
+		return userService.login(email, password, session);
+	}
+
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.removeAttribute("user");
+		session.setAttribute("successMessage", "Logout Success");
+		return "redirect:/";
 	}
 }
