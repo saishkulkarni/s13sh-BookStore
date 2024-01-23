@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - Book Store</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: "Arial", sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: #007bff;
+        }
+
+        .navbar-brand {
+            color: #ffffff;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #007bff;
+        }
+
+        .admin-buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="/">Book Store</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/products">Products</a>
+                </li>
+            </ul>
+            <div th:if="${session.user==null}">
+                <a href="/signin" class="btn btn-outline-light ml-2">Sign In</a>
+                <a href="/signup" class="btn btn-light ml-2">Sign Up</a>
+            </div>
+            <div th:if="${session.user}">
+                <div th:if="${session.user.role=='ADMIN'}">
+                    <a href="/admin" class="btn btn-secondary ml-2">Admin Dashboard</a>
+                </div>
+            </div>
+            <div th:if="${session.user}">
+                <a href="/logout" class="btn btn-outline-light ml-2">Logout</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-4">
+        <h2>Welcome to Admin Dashboard!</h2>
+        <div class="admin-buttons">
+            <a href="/admin/add-book" class="btn btn-primary">Add Book</a>
+            <a href="/manage-books" class="btn btn-info ml-2">Manage Books</a>
+        </div>
+    </div>
+
+    <footer class="py-3 text-center fixed-bottom" style="background-color: #343A40; color: #ffffff;">
+        &copy; 2024 Book Store
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+
+</html>

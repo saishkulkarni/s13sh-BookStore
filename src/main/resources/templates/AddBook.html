@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Add Book - Book Store</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+	<style>
+		body {
+			background-color: #f8f9fa;
+			font-family: "Arial", sans-serif;
+			margin: 0;
+			padding: 0;
+		}
+
+		.navbar {
+			background-color: #007bff;
+		}
+
+		.navbar-brand {
+			color: #ffffff;
+			font-size: 1.5rem;
+			font-weight: bold;
+		}
+
+		.container {
+			max-width: 800px;
+			margin: 20px auto;
+			padding: 20px;
+			background-color: #ffffff;
+			border-radius: 5px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		}
+
+		h2 {
+			color: #007bff;
+		}
+
+		.form-group {
+			margin-bottom: 20px;
+		}
+	</style>
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark">
+		<a class="navbar-brand" href="/">Book Store</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
+				<li class="nav-item">
+					<a class="nav-link" href="/products">Products</a>
+				</li>
+			</ul>
+			<div th:if="${session.user==null}">
+				<a href="/signin" class="btn btn-outline-light ml-2">Sign In</a>
+				<a href="/signup" class="btn btn-light ml-2">Sign Up</a>
+			</div>
+			<div th:if="${session.user}">
+				<div th:if="${session.user.role=='ADMIN'}">
+					<a href="/admin" class="btn btn-secondary ml-2">Admin Dashboard</a>
+				</div>
+			</div>
+			<div th:if="${session.user}">
+				<a href="/logout" class="btn btn-outline-light ml-2">Logout</a>
+			</div>
+		</div>
+	</nav>
+	<div class="container mt-4">
+		<h2>Add Book</h2>
+		<form action="/admin/add-book" th:object="${book}" method="post" enctype="multipart/form-data">
+			<div class="form-group">
+				<label for="name">Book Name:</label>
+				<input type="text" class="form-control" id="name" name="name" th:field="*{name}">
+				<span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-message"></span>
+			</div>
+
+			<div class="form-group">
+				<label for="price">Price:</label>
+				<input type="number" class="form-control" id="price" name="price" th:field="*{price}">
+				<span th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="error-message"></span>
+			</div>
+			<div class="form-group">
+				<label for="genre">Genre:</label>
+				<input type="text" class="form-control" id="genre" name="genre" th:field="*{genre}">
+				<span th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}" class="error-message"></span>
+			</div>
+			<div class="form-group">
+				<label>Type:</label>
+				<select class="form-control" name="type" th:field="*{type}">
+					<option value="new">New</option>
+					<option value="old">Old</option>
+				</select>
+				<span th:if="${#fields.hasErrors('type')}" th:errors="*{type}" class="error-message"></span>
+			</div>
+			<div class="form-group">
+				<label for="picture">Book Picture:</label>
+				<input type="file" class="form-control-file" id="picture" name="photo" accept="image/*">
+			</div>
+			<div class="form-group">
+				<label for="store">Stock:</label>
+				<input type="text" class="form-control" id="stock" name="stock" th:field="*{stock}">
+				<span th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}" class="error-message"></span>
+			</div>
+			<div class="form-group">
+				<label for="demo-pdf">Demo PDF:</label>
+				<input type="file" class="form-control-file" id="demo-pdf" name="bookPdf" accept=".pdf">
+			</div>
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</form>
+	</div>
+
+	<footer class="py-3 text-center">&copy; 2024 Book Store</footer>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+
+</html>
