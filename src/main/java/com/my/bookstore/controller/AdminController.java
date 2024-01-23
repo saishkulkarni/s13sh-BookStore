@@ -1,5 +1,7 @@
 package com.my.bookstore.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -36,11 +38,11 @@ public class AdminController {
 	}
 
 	@PostMapping("/add-book")
-	public String addBook(@Valid Book book, @RequestParam MultipartFile photo, @RequestParam MultipartFile bookPdf,
-			BindingResult result) {
+	public String addBook(@Valid Book book, BindingResult result, @RequestParam MultipartFile photo,
+			@RequestParam MultipartFile bookPdf, HttpSession session) throws IOException {
 		if (result.hasErrors())
 			return "AddBook";
 		else
-			return "redirect:/admin";
+			return adminService.addBook(session, book, photo, bookPdf, result);
 	}
 }

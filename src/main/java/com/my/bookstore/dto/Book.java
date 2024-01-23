@@ -24,7 +24,7 @@ public class Book {
 	private String name;
 	@DecimalMin(value = "1", message = "* Enter Proper Price")
 	private double price;
-	@Size(min = 3, max = 10, message = "* Enter Between 3 ~ 10 letters")
+	@Size(min = 3, max = 20, message = "* Enter Between 3 ~ 10 letters")
 	private String genre;
 	@DecimalMin(value = "1", message = "* Enter Stock greater than 1")
 	private int stock;
