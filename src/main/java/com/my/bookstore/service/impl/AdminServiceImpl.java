@@ -64,14 +64,16 @@ public class AdminServiceImpl implements AdminService {
 	public String addBook(HttpSession session, Book book, MultipartFile photo, MultipartFile bookPdf,
 			BindingResult result) throws IOException {
 
-		book.setPicturePath(photo.getOriginalFilename());
-		book.setDemoPdfPath(bookPdf.getOriginalFilename());
+		bookDao.saveBook(book);
+
+		book.setPicturePath("/images/" + book.getId() + ".jpg");
+		book.setDemoPdfPath("/demoPdfs/" + book.getId() + ".pdf");
 
 		String pdfFolderPath = "src/main/resources/static/demoPdfs";
 		String pictureFolderPath = "src/main/resources/static/images";
 
-		Path picturePath = Paths.get(pictureFolderPath, photo.getOriginalFilename());
-		Path pdfPath = Paths.get(pdfFolderPath, bookPdf.getOriginalFilename());
+		Path picturePath = Paths.get(pictureFolderPath, book.getId() + ".jpg");
+		Path pdfPath = Paths.get(pdfFolderPath, book.getId() + ".pdf");
 
 		Files.write(picturePath, photo.getBytes());
 		Files.write(pdfPath, bookPdf.getBytes());
