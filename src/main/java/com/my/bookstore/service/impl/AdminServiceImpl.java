@@ -1,6 +1,9 @@
 package com.my.bookstore.service.impl;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,20 +63,20 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public String addBook(HttpSession session, Book book, MultipartFile photo, MultipartFile bookPdf,
 			BindingResult result) throws IOException {
-		byte[] picture = new byte[photo.getInputStream().available()];
-		photo.getInputStream().read(picture);
-		System.out.println(picture.length);
 
-		byte[] demoPdf = new byte[bookPdf.getInputStream().available()];
-		bookPdf.getInputStream().read(demoPdf);
+		book.setPicturePath(photo.getOriginalFilename());
+		book.setDemoPdfPath(bookPdf.getOriginalFilename());
 
-		System.out.println(demoPdf.length);
+		String pdfFolderPath = "src/main/resources/static/demoPdfs";
+		String pictureFolderPath = "src/main/resources/static/images";
 
-		book.setDemoPdf(demoPdf);
-		book.setPicture(picture);
+		Path picturePath = Paths.get(pictureFolderPath, photo.getOriginalFilename());
+		Path pdfPath = Paths.get(pdfFolderPath, bookPdf.getOriginalFilename());
+
+		Files.write(picturePath, photo.getBytes());
+		Files.write(pdfPath, bookPdf.getBytes());
 
 		bookDao.saveBook(book);
-
 		session.setAttribute("successMessage", "Book Added Success");
 		return "redirect:/admin";
 	}

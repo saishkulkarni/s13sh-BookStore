@@ -82,6 +82,12 @@
 			</div>
 
 			<div class="form-group">
+				<label for="name">Author Name:</label>
+				<input type="text" class="form-control" id="name" name="authorName" th:field="*{authorName}">
+				<span th:if="${#fields.hasErrors('authorName')}" th:errors="*{authorName}" class="error-message"></span>
+			</div>
+
+			<div class="form-group">
 				<label for="price">Price:</label>
 				<input type="number" class="form-control" id="price" name="price" th:field="*{price}">
 				<span th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="error-message"></span>
@@ -101,7 +107,7 @@
 			</div>
 			<div class="form-group">
 				<label for="picture">Book Picture:</label>
-				<input type="file" class="form-control-file" id="picture" name="photo" accept="image/*">
+				<input type="file" class="form-control-file" id="picture" required name="photo" accept="image/*">
 			</div>
 			<div class="form-group">
 				<label for="store">Stock:</label>
@@ -110,7 +116,7 @@
 			</div>
 			<div class="form-group">
 				<label for="demo-pdf">Demo PDF:</label>
-				<input type="file" class="form-control-file" id="demo-pdf" name="bookPdf" accept=".pdf">
+				<input type="file" class="form-control-file" id="demo-pdf" name="bookPdf" required accept=".pdf">
 			</div>
 			<button type="submit" class="btn btn-primary">Submit</button>
 		</form>
