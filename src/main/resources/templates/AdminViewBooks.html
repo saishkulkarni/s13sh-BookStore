@@ -1,40 +1,129 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="ISO-8859-1" />
-    <title>Insert title here</title>
-  </head>
-  <body>
-    <h1>Manage Books Here</h1>
+<html lang="en">
 
-    <table border="1">
-      <tr>
-        <th>Name</th>
-        <th>Author Name</th>
-        <th>Genre</th>
-        <th>Stock</th>
-        <th>Type</th>
-        <th>Price</th>
-        <th>Picture</th>
-        <th>Pdf Demo</th>
-        <th>Edit</th>
-        <th>Delete</th>
-      </tr>
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Book Store - Manage Books</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+	<style>
+		body {
+			background-color: #f8f9fa;
+			font-family: "Arial", sans-serif;
+			margin: 0;
+			padding: 0;
+		}
 
-      <tr th:each="book:${books}">
-        <td th:text="${book.name}"></td>
-        <td th:text="${book.authorName}"></td>
-        <td th:text="${book.genre}"></td>
-        <td th:text="${book.stock}"></td>
-        <td th:text="${book.type}"></td>
-        <td th:text="${book.price}"></td>
-        <td><img th:src="${book.picturePath}" width="100px" height="100px" alt="Book.jpg" /></td>
-        <td>
-          <embed th:src="${book.demoPdfPath}" width="100px" height="100px" />
-        </td>
-        <td><button>Edit</button></td>
-        <td><button>Delete</button></td>
-      </tr>
-    </table>
-  </body>
+		.navbar {
+			background-color: #007bff;
+		}
+
+		.navbar-brand {
+			color: #ffffff;
+			font-size: 1.5rem;
+			font-weight: bold;
+		}
+
+		.container {
+			max-width: 1300px;
+			margin: 20px auto;
+			background-color: #ffffff;
+			border-radius: 5px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			padding: 20px;
+		}
+
+		h1 {
+			color: #007bff;
+		}
+
+		.book-card {
+			border: 1px solid #ddd;
+			border-radius: 5px;
+			padding: 10px;
+			margin-bottom: 20px;
+			background-color: #fff;
+			max-width: 300px;
+			/* Set a maximum width for the cards */
+		}
+
+		.book-image {
+			text-align: center;
+		}
+
+		.footer {
+			background-color: #343A40;
+			color: #ffffff;
+			padding: 10px;
+			text-align: center;
+		}
+	</style>
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark">
+		<a class="navbar-brand" href="/">Book Store</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
+				<li class="nav-item">
+					<a class="nav-link" href="/products">Products</a>
+				</li>
+			</ul>
+			<div th:if="${session.user==null}">
+				<a href="/signin" class="btn btn-outline-light ml-2">Sign In</a>
+				<a href="/signup" class="btn btn-light ml-2">Sign Up</a>
+			</div>
+			<div th:if="${session.user}">
+				<div th:if="${session.user.role=='ADMIN'}">
+					<a href="/admin" class="btn btn-secondary ml-2">Admin Dashboard</a>
+				</div>
+			</div>
+			<div th:if="${session.user}">
+				<a href="/logout" class="btn btn-outline-light ml-2">Logout</a>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container mt-4">
+		<h1>Manage Books</h1>
+
+		<div class="row">
+			<div th:each="book:${books}" class="col-md-3">
+				<div class="book-card">
+					<div class="book-image">
+						<img th:src="${book.picturePath}" width="150px" height="200px" alt="Book.jpg" />
+					</div>
+					<div class="book-details">
+						<h4 th:text="${book.name}"></h4>
+						<p th:text="'Author: ' + ${book.authorName}"></p>
+						<p th:text="'Genre: ' + ${book.genre}"></p>
+						<p th:text="'Stock: ' + ${book.stock}"></p>
+						<p th:text="'Type: ' + ${book.type}"></p>
+						<p th:text="'Price: ' + ${book.price}"></p>
+					</div>
+					<div class="book-actions">
+						<a th:href="${book.demoPdfPath}" download="Book.pdf">Download PDF</a>
+						<button>Edit</button>
+						<button>Delete</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<footer class="py-3 text-center fixed-bottom" style="background-color: #343A40; color: #ffffff;">
+		&copy; 2024 Book Store
+	</footer>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+
 </html>
