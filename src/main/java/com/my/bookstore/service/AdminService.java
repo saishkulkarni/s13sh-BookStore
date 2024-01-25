@@ -18,4 +18,6 @@ public interface AdminService {
 
 	String addBook(HttpSession session, Book book, MultipartFile photo, MultipartFile bookPdf, BindingResult result) throws IOException;
 
+	String displayBooks(HttpSession session, ModelMap map);
+
 }

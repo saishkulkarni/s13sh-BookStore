@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -81,6 +82,29 @@ public class AdminServiceImpl implements AdminService {
 		bookDao.saveBook(book);
 		session.setAttribute("successMessage", "Book Added Success");
 		return "redirect:/admin";
+	}
+
+	@Override
+	public String displayBooks(HttpSession session, ModelMap map) {
+		User user = (User) session.getAttribute("user");
+		if (user == null) {
+			session.setAttribute("failMessage", "Session Expired");
+			return "redirect:/signin";
+		} else {
+			if (user.getRole().equals("ADMIN")) {
+				List<Book> books = bookDao.fetchAllBooks();
+				if (books.isEmpty()) {
+					session.setAttribute("failMessage", "No Books Added Yet");
+					return "redirect:/admin";
+				} else {
+					map.put("books", books);
+					return "AdminViewBooks";
+				}
+			} else {
+				session.setAttribute("failMessage", "You are Unauthorized to use this URL");
+				return "redirect:/";
+			}
+		}
 	}
 
 }

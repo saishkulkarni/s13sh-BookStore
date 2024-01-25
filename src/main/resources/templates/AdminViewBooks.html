@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="ISO-8859-1" />
+    <title>Insert title here</title>
+  </head>
+  <body>
+    <h1>Manage Books Here</h1>
+
+    <table border="1">
+      <tr>
+        <th>Name</th>
+        <th>Author Name</th>
+        <th>Genre</th>
+        <th>Stock</th>
+        <th>Type</th>
+        <th>Price</th>
+        <th>Picture</th>
+        <th>Pdf Demo</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+
+      <tr th:each="book:${books}">
+        <td th:text="${book.name}"></td>
+        <td th:text="${book.authorName}"></td>
+        <td th:text="${book.genre}"></td>
+        <td th:text="${book.stock}"></td>
+        <td th:text="${book.type}"></td>
+        <td th:text="${book.price}"></td>
+        <td><img th:src="${book.picturePath}" width="100px" height="100px" alt="Book.jpg" /></td>
+        <td>
+          <embed th:src="${book.demoPdfPath}" width="100px" height="100px" />
+        </td>
+        <td><button>Edit</button></td>
+        <td><button>Delete</button></td>
+      </tr>
+    </table>
+  </body>
+</html>

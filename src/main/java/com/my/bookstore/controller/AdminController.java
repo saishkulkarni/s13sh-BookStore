@@ -45,4 +45,9 @@ public class AdminController {
 		else
 			return adminService.addBook(session, book, photo, bookPdf, result);
 	}
+
+	@GetMapping("/manage-books")
+	public String displayBooks(HttpSession session, ModelMap map) {
+		return adminService.displayBooks(session,map);
+	}
 }
