@@ -22,4 +22,12 @@ public class BookDao {
 		return bookRepository.findAll();
 	}
 
+	public void delete(int id) {
+		bookRepository.deleteById(id);
+	}
+
+	public Book findById(int id) {
+		return bookRepository.findById(id).orElseThrow();
+	}
+
 }

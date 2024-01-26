@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -48,6 +49,25 @@ public class AdminController {
 
 	@GetMapping("/manage-books")
 	public String displayBooks(HttpSession session, ModelMap map) {
-		return adminService.displayBooks(session,map);
+		return adminService.displayBooks(session, map);
+	}
+
+	@GetMapping("/delete/{id}")
+	public String deleteBook(@PathVariable int id, HttpSession session) {
+		return adminService.deleteBook(id, session);
+	}
+	
+	@GetMapping("/edit/{id}")
+	public String editBook(@PathVariable int id, HttpSession session,ModelMap map) {
+		return adminService.editBook(id, session,map);
+	}
+	
+	@PostMapping("/update-book")
+	public String updateBook(@Valid Book book, BindingResult result, @RequestParam MultipartFile photo,
+			@RequestParam MultipartFile bookPdf, HttpSession session) throws IOException {
+		if (result.hasErrors())
+			return "EditBook";
+		else
+			return adminService.editBook(session, book, photo, bookPdf, result);
 	}
 }

@@ -1,129 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book Store - Manage Books</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        background-color: #f8f9fa;
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        padding: 0;
+      }
 
-<head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Book Store - Manage Books</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
-	<style>
-		body {
-			background-color: #f8f9fa;
-			font-family: "Arial", sans-serif;
-			margin: 0;
-			padding: 0;
-		}
+      .navbar {
+        background-color: #007bff;
+      }
 
-		.navbar {
-			background-color: #007bff;
-		}
+      .navbar-brand {
+        color: #ffffff;
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
 
-		.navbar-brand {
-			color: #ffffff;
-			font-size: 1.5rem;
-			font-weight: bold;
-		}
+      .container {
+        max-width: 1300px;
+        margin: 20px auto;
+        background-color: #ffffff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+      }
 
-		.container {
-			max-width: 1300px;
-			margin: 20px auto;
-			background-color: #ffffff;
-			border-radius: 5px;
-			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-			padding: 20px;
-		}
+      h1 {
+        color: #007bff;
+      }
 
-		h1 {
-			color: #007bff;
-		}
+      .book-card {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 20px;
+        background-color: #fff;
+        max-width: 300px;
+        /* Set a maximum width for the cards */
+      }
 
-		.book-card {
-			border: 1px solid #ddd;
-			border-radius: 5px;
-			padding: 10px;
-			margin-bottom: 20px;
-			background-color: #fff;
-			max-width: 300px;
-			/* Set a maximum width for the cards */
-		}
+      .book-image {
+        text-align: center;
+      }
 
-		.book-image {
-			text-align: center;
-		}
+      .footer {
+        background-color: #343a40;
+        color: #ffffff;
+        padding: 10px;
+        text-align: center;
+      }
+    </style>
+  </head>
 
-		.footer {
-			background-color: #343A40;
-			color: #ffffff;
-			padding: 10px;
-			text-align: center;
-		}
-	</style>
-</head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <a class="navbar-brand" href="/">Book Store</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-<body>
-	<nav class="navbar navbar-expand-lg navbar-dark">
-		<a class="navbar-brand" href="/">Book Store</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-			aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
+          <li class="nav-item">
+            <a class="nav-link" href="/products">Products</a>
+          </li>
+        </ul>
+        <div th:if="${session.user==null}">
+          <a href="/signin" class="btn btn-outline-light ml-2">Sign In</a>
+          <a href="/signup" class="btn btn-light ml-2">Sign Up</a>
+        </div>
+        <div th:if="${session.user}">
+          <div th:if="${session.user.role=='ADMIN'}">
+            <a href="/admin" class="btn btn-secondary ml-2">Admin Dashboard</a>
+          </div>
+        </div>
+        <div th:if="${session.user}">
+          <a href="/logout" class="btn btn-outline-light ml-2">Logout</a>
+        </div>
+      </div>
+    </nav>
+    <div
+      th:if="${session.successMessage}"
+      class="alert alert-success"
+      role="alert"
+      id="successAlert"
+    >
+      <span th:text="${session.successMessage}"></span>
+      <th:block th:text="${@sessionManager.removeSuccessMessage()}"></th:block>
+    </div>
+    <div
+      th:if="${session.failMessage}"
+      class="alert alert-danger"
+      role="alert"
+      id="successAlert"
+    >
+      <span th:text="${session.failMessage}"></span>
+      <th:block th:text="${@sessionManager.removeFailMessage()}"></th:block>
+    </div>
+    <div class="container mt-4">
+      <h1>Manage Books</h1>
 
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav ml-auto">
-				<li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
-				<li class="nav-item">
-					<a class="nav-link" href="/products">Products</a>
-				</li>
-			</ul>
-			<div th:if="${session.user==null}">
-				<a href="/signin" class="btn btn-outline-light ml-2">Sign In</a>
-				<a href="/signup" class="btn btn-light ml-2">Sign Up</a>
-			</div>
-			<div th:if="${session.user}">
-				<div th:if="${session.user.role=='ADMIN'}">
-					<a href="/admin" class="btn btn-secondary ml-2">Admin Dashboard</a>
-				</div>
-			</div>
-			<div th:if="${session.user}">
-				<a href="/logout" class="btn btn-outline-light ml-2">Logout</a>
-			</div>
-		</div>
-	</nav>
+      <div class="row">
+        <div th:each="book:${books}" class="col-md-3">
+          <div class="book-card">
+            <div class="book-image">
+              <img
+                th:src="${book.picturePath}"
+                width="150px"
+                height="200px"
+                alt="Book.jpg"
+              />
+            </div>
+            <div class="book-details">
+              <h4 th:text="${book.name}"></h4>
+              <p th:text="'Author: ' + ${book.authorName}"></p>
+              <p th:text="'Genre: ' + ${book.genre}"></p>
+              <p th:text="'Stock: ' + ${book.stock}"></p>
+              <p th:text="'Type: ' + ${book.type}"></p>
+              <p th:text="'Price: ' + ${book.price}"></p>
+            </div>
+            <div class="book-actions">
+              <a th:href="${book.demoPdfPath}" download="Book.pdf"
+                ><button>Download Demo</button></a
+              >
 
-	<div class="container mt-4">
-		<h1>Manage Books</h1>
+              <a th:href="'/admin/edit/'+${book.id}"><button>Edit</button></a>
+              <a th:href="'/admin/delete/'+${book.id}"
+                ><button>Delete</button></a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-		<div class="row">
-			<div th:each="book:${books}" class="col-md-3">
-				<div class="book-card">
-					<div class="book-image">
-						<img th:src="${book.picturePath}" width="150px" height="200px" alt="Book.jpg" />
-					</div>
-					<div class="book-details">
-						<h4 th:text="${book.name}"></h4>
-						<p th:text="'Author: ' + ${book.authorName}"></p>
-						<p th:text="'Genre: ' + ${book.genre}"></p>
-						<p th:text="'Stock: ' + ${book.stock}"></p>
-						<p th:text="'Type: ' + ${book.type}"></p>
-						<p th:text="'Price: ' + ${book.price}"></p>
-					</div>
-					<div class="book-actions">
-						<a th:href="${book.demoPdfPath}" download="Book.pdf">Download PDF</a>
-						<button>Edit</button>
-						<button>Delete</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <footer
+      class="py-3 text-center fixed-bottom"
+      style="background-color: #343a40; color: #ffffff"
+    >
+      &copy; 2024 Book Store
+    </footer>
 
-	<footer class="py-3 text-center fixed-bottom" style="background-color: #343A40; color: #ffffff;">
-		&copy; 2024 Book Store
-	</footer>
-
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-</body>
-
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  </body>
 </html>
