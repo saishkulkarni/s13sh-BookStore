@@ -9,7 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.my.bookstore.dto.Book;
 
 import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 
 public interface AdminService {
 
@@ -17,11 +16,12 @@ public interface AdminService {
 
 	String addBook(HttpSession session, ModelMap map);
 
-	String addBook(HttpSession session, Book book, MultipartFile photo, MultipartFile bookPdf, BindingResult result) throws IOException;
+	String addBook(HttpSession session, Book book, MultipartFile photo, MultipartFile bookPdf, BindingResult result)
+			throws IOException;
 
 	String displayBooks(HttpSession session, ModelMap map);
 
-	String deleteBook(int id, HttpSession session);
+	String deleteBook(int id, HttpSession session) throws IOException;
 
 	String editBook(int id, HttpSession session, ModelMap map);
 

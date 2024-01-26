@@ -116,13 +116,21 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public String deleteBook(int id, HttpSession session) {
+	public String deleteBook(int id, HttpSession session) throws IOException {
 		User user = (User) session.getAttribute("user");
 		if (user == null) {
 			session.setAttribute("failMessage", "Session Expired");
 			return "redirect:/signin";
 		} else {
 			if (user.getRole().equals("ADMIN")) {
+				String pdfFolderPath = "src/main/resources/static/demoPdfs";
+				String pictureFolderPath = "src/main/resources/static/images";
+				Path picturePath = Paths.get(pictureFolderPath, book.getId() + ".jpg");
+				Path pdfPath = Paths.get(pdfFolderPath, book.getId() + ".pdf");
+
+				Files.deleteIfExists(pdfPath);
+				Files.deleteIfExists(picturePath);
+
 				bookDao.delete(id);
 				session.setAttribute("successMessage", "Book Deleted Success");
 				return "redirect:/admin/manage-books";
