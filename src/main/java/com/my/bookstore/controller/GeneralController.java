@@ -76,4 +76,14 @@ public class GeneralController {
 		session.setAttribute("successMessage", "Logout Success");
 		return "redirect:/";
 	}
+
+	@GetMapping("/books")
+	public String loadBooks(HttpSession session, ModelMap map) {
+		return userService.loadBooks(session, map);
+	}
+
+	@GetMapping("/buy-now/{id}")
+	public String buyNow(@PathVariable int id, HttpSession session) {
+		return userService.buyNow(id, session);
+	}
 }

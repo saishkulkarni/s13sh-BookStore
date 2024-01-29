@@ -53,7 +53,7 @@ public class AdminController {
 	}
 
 	@GetMapping("/delete/{id}")
-	public String deleteBook(@PathVariable int id, HttpSession session) {
+	public String deleteBook(@PathVariable int id, HttpSession session) throws IOException {
 		return adminService.deleteBook(id, session);
 	}
 	

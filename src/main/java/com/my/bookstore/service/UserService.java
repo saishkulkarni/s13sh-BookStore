@@ -16,4 +16,8 @@ public interface UserService {
 	public String resendOtp(int id, ModelMap map);
 
 	public String login(String email, String password, HttpSession session);
+
+	public String loadBooks(HttpSession session, ModelMap map);
+
+	public String buyNow(int id, HttpSession session);
 }

@@ -1,5 +1,6 @@
 package com.my.bookstore.service.impl;
 
+import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 
+import com.my.bookstore.dao.BookDao;
 import com.my.bookstore.dao.UserDao;
+import com.my.bookstore.dto.Book;
 import com.my.bookstore.dto.User;
 import com.my.bookstore.helper.AES;
 import com.my.bookstore.helper.MailHelper;
@@ -23,6 +26,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	MailHelper mailHelper;
+
+	@Autowired
+	BookDao bookDao;
 
 	@Override
 	public String signup(User user, BindingResult result) {
@@ -87,4 +93,22 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	@Override
+	public String loadBooks(HttpSession session, ModelMap map) {
+		List<Book> books = bookDao.fetchAllBooks();
+		if (books.isEmpty()) {
+			session.setAttribute("failMessage", "No Books Present");
+			return "redirect:/";
+		} else {
+			map.put("books", books);
+			return "CustomerViewBooks";
+		}
+	}
+
+	@Override
+	public String buyNow(int id, HttpSession session) {
+		Book book=bookDao.findById(id);
+		
+		
+	}
 }

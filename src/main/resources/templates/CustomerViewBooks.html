@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Book Store - Manage Books</title>
+    <title>Book Store - View Books</title>
     <link
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -117,7 +117,7 @@
       <th:block th:text="${@sessionManager.removeFailMessage()}"></th:block>
     </div>
     <div class="container mt-4">
-      <h1>Manage Books</h1>
+      <h1>View Books</h1>
 
       <div class="row">
         <div th:each="book:${books}" class="col-md-3">
@@ -142,11 +142,18 @@
               <a th:href="${book.demoPdfPath}" download="Book.pdf"
                 ><button>Download Demo</button></a
               >
-
-              <a th:href="'/admin/edit/'+${book.id}"><button>Edit</button></a>
-              <a th:href="'/admin/delete/'+${book.id}"
-                ><button>Delete</button></a
-              >
+              <th:block th:if="${session.user}">
+                <th:block th:if="${book.stock!=0}">
+                  <a th:href="'/buy-now/'+${book.id}"><button>Buy Now</button></a>
+                </th:block>
+                <th:block th:if="${book.stock==0}">
+                  <a><button disabled>Out of Stock</button></a>
+                </th:block>
+              </th:block>
+              <th:block th:if="${session.user==null}"
+                ><a><button disabled>Buy Now</button></a>
+                <h6>Login to Purchase Book</h6>
+              </th:block>
             </div>
           </div>
         </div>
