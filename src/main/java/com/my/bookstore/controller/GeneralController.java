@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.my.bookstore.dto.User;
 import com.my.bookstore.service.UserService;
+import com.razorpay.RazorpayException;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -83,7 +84,7 @@ public class GeneralController {
 	}
 
 	@GetMapping("/buy-now/{id}")
-	public String buyNow(@PathVariable int id, HttpSession session) {
-		return userService.buyNow(id, session);
+	public String buyNow(@PathVariable int id, HttpSession session,ModelMap map) throws RazorpayException {
+		return userService.buyNow(id, session,map);
 	}
 }

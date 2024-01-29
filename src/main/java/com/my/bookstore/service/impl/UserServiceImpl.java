@@ -1,8 +1,10 @@
 package com.my.bookstore.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
@@ -11,10 +13,14 @@ import org.springframework.validation.BindingResult;
 import com.my.bookstore.dao.BookDao;
 import com.my.bookstore.dao.UserDao;
 import com.my.bookstore.dto.Book;
+import com.my.bookstore.dto.BookOrder;
 import com.my.bookstore.dto.User;
 import com.my.bookstore.helper.AES;
 import com.my.bookstore.helper.MailHelper;
 import com.my.bookstore.service.UserService;
+import com.razorpay.Order;
+import com.razorpay.RazorpayClient;
+import com.razorpay.RazorpayException;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -106,9 +112,44 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String buyNow(int id, HttpSession session) {
-		Book book=bookDao.findById(id);
-		
-		
+	public String buyNow(int id, HttpSession session, ModelMap map) throws RazorpayException {
+		User user = (User) session.getAttribute("user");
+		if (user == null) {
+			session.setAttribute("failMessage", "Invalid Session");
+			return "redirect:/login";
+		} else {
+			Book book = bookDao.findById(id);
+			if (book.getStock() >= 1) {
+				RazorpayClient razorpay = new RazorpayClient("rzp_test_71gEcjP0fsIjdi", "F4USJtRwCeLden4tP7wpnYiF");
+				JSONObject orderRequest = new JSONObject();
+				orderRequest.put("amount", book.getPrice() * 100);
+				orderRequest.put("currency", "INR");
+
+				Order order = razorpay.orders.create(orderRequest);
+				String orderId = order.get("id");
+				BookOrder bookOrder = new BookOrder();
+				bookOrder.setAmount(book.getPrice());
+				bookOrder.setCurrency("INR");
+				bookOrder.setOrderId(orderId);
+				bookOrder.setBook(book);
+
+				if (user.getBookOrders() == null)
+					user.setBookOrders(new ArrayList<BookOrder>());
+
+				user.getBookOrders().add(bookOrder);
+				userDao.save(user);
+				session.setAttribute("user", user);
+				map.put("order", bookOrder);
+				map.put("key", "rzp_test_71gEcjP0fsIjdi");
+				map.put("user", user);
+				map.put("book", book);
+				return "ConfirmOrder";
+
+			} else {
+				session.setAttribute("failMessage", "Out of Stock");
+				return "redirect:/";
+			}
+		}
+
 	}
 }

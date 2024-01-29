@@ -4,6 +4,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 
 import com.my.bookstore.dto.User;
+import com.razorpay.RazorpayException;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -19,5 +20,5 @@ public interface UserService {
 
 	public String loadBooks(HttpSession session, ModelMap map);
 
-	public String buyNow(int id, HttpSession session);
+	public String buyNow(int id, HttpSession session, ModelMap map) throws RazorpayException;
 }

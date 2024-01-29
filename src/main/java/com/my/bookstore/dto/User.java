@@ -1,13 +1,17 @@
 package com.my.bookstore.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Email;
@@ -46,4 +50,7 @@ public class User {
 	private String role;
 	private int otp;
 	private boolean verified;
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	List<BookOrder> bookOrders;
 }
