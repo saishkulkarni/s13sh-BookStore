@@ -120,7 +120,7 @@ public class UserServiceImpl implements UserService {
 		} else {
 			Book book = bookDao.findById(id);
 			if (book.getStock() >= 1) {
-				RazorpayClient razorpay = new RazorpayClient("rzp_test_71gEcjP0fsIjdi", "F4USJtRwCeLden4tP7wpnYiF");
+				RazorpayClient razorpay = new RazorpayClient("rzp_test_71gEcjP0fsIjdi", "123F4USJtRwCeLden4tP7wpnYiF");
 				JSONObject orderRequest = new JSONObject();
 				orderRequest.put("amount", book.getPrice() * 100);
 				orderRequest.put("currency", "INR");

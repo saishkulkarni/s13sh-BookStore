@@ -15,45 +15,48 @@
 	<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 	<script th:inline="javascript">
 		var options = {
-			key: "[[${key}]]",
-			amount: "[[${order.amount*100}]]",
+			key: /*[[${key}]]*/,
+			amount: /*[[${order.amount * 100}]]*/,
 			currency: "INR",
 			name: "Book Store",
 			description: "Best Book Store in the world",
 			image: "https://i.pinimg.com/originals/79/a2/6c/79a26c942e0b561b1c59621be1bfc22f.jpg",
-			order_id: "[[${order.orderId}]]",
+			order_id: /*[[${order.orderId}]]*/,
 			handler: function (response) {
 				alert(response.razorpay_payment_id);
 				alert(response.razorpay_order_id);
 				alert(response.razorpay_signature);
 			},
 			prefill: {
-				name: "[[${user.name}]]",
-				email: "[[${user.email}]]",
-							contact: "+91[[${user.mobile}]]",
-						},
-						notes: {
-							address: "Razorpay Corporate Office",
-						},
-						theme: {
-							color: "blue",
-						},
-					};
-					var rzp1 = new Razorpay(options);
-					rzp1.on("payment.failed", function (response) {
-						alert(response.error.code);
-						alert(response.error.description);
-						alert(response.error.source);
+				name: /*[[${user.name}]]*/,
+				email: /*[[${user.email}]]*/,
+				contact: "+91/*[[${user.mobile}]]*/",
+			},
+			notes: {
+				address: "Razorpay Corporate Office",
+			},
+			theme: {
+				color: "blue",
+			}
+		};
+
+		var rzp1 = new Razorpay(options);
+		rzp1.on("payment.failed", function (response) {
+			alert(response.error.code);
+			alert(response.error.description);
+			alert(response.error.source);
 			alert(response.error.step);
 			alert(response.error.reason);
 			alert(response.error.metadata.order_id);
 			alert(response.error.metadata.payment_id);
 		});
+
 		document.getElementById("rzp-button1").onclick = function (e) {
 			rzp1.open();
 			e.preventDefault();
 		};
 	</script>
+
 </body>
 
 </html>
