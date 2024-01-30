@@ -56,12 +56,12 @@ public class AdminController {
 	public String deleteBook(@PathVariable int id, HttpSession session) throws IOException {
 		return adminService.deleteBook(id, session);
 	}
-	
+
 	@GetMapping("/edit/{id}")
-	public String editBook(@PathVariable int id, HttpSession session,ModelMap map) {
-		return adminService.editBook(id, session,map);
+	public String editBook(@PathVariable int id, HttpSession session, ModelMap map) {
+		return adminService.editBook(id, session, map);
 	}
-	
+
 	@PostMapping("/update-book")
 	public String updateBook(@Valid Book book, BindingResult result, @RequestParam MultipartFile photo,
 			@RequestParam MultipartFile bookPdf, HttpSession session) throws IOException {
@@ -69,5 +69,10 @@ public class AdminController {
 			return "EditBook";
 		else
 			return adminService.editBook(session, book, photo, bookPdf, result);
+	}
+
+	@GetMapping("/create-admin/{email}/{password}")
+	public String createAdmin(@PathVariable String email, @PathVariable String password, HttpSession session) {
+		return adminService.createAdmin(email, password, session);
 	}
 }

@@ -8,8 +8,8 @@
 
 <body>
 	<div>
-		<h3>You have selected Book : <span th:th:text="${book.name}"></span></h3>
-		<h3>You are about to Pay : <span th:th:text="${book.price}+'&#8377'"></span></h3>
+		<h3>You have selected Book : <span th:text="${book.name}"></span></h3>
+		<h3>You are about to Pay : <span th:text="${book.price}+'&#8377'"></span></h3>
 	</div>
 	<button id="rzp-button1">Pay with Razorpay</button>
 	<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
@@ -22,11 +22,7 @@
 			description: "Best Book Store in the world",
 			image: "https://i.pinimg.com/originals/79/a2/6c/79a26c942e0b561b1c59621be1bfc22f.jpg",
 			order_id: /*[[${order.orderId}]]*/,
-			handler: function (response) {
-				alert(response.razorpay_payment_id);
-				alert(response.razorpay_order_id);
-				alert(response.razorpay_signature);
-			},
+			"callback_url": "http://localhost:1234/confirm-order/[[${order.id}]]",
 			prefill: {
 				name: /*[[${user.name}]]*/,
 				email: /*[[${user.email}]]*/,
@@ -41,20 +37,10 @@
 		};
 
 		var rzp1 = new Razorpay(options);
-		rzp1.on("payment.failed", function (response) {
-			alert(response.error.code);
-			alert(response.error.description);
-			alert(response.error.source);
-			alert(response.error.step);
-			alert(response.error.reason);
-			alert(response.error.metadata.order_id);
-			alert(response.error.metadata.payment_id);
-		});
-
-		document.getElementById("rzp-button1").onclick = function (e) {
+		document.getElementById('rzp-button1').onclick = function (e) {
 			rzp1.open();
 			e.preventDefault();
-		};
+		}
 	</script>
 
 </body>

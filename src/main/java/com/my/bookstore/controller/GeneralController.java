@@ -84,7 +84,14 @@ public class GeneralController {
 	}
 
 	@GetMapping("/buy-now/{id}")
-	public String buyNow(@PathVariable int id, HttpSession session,ModelMap map) throws RazorpayException {
-		return userService.buyNow(id, session,map);
+	public String buyNow(@PathVariable int id, HttpSession session, ModelMap map) throws RazorpayException {
+		return userService.buyNow(id, session, map);
 	}
+
+	@PostMapping("/confirm-order/{orderId}")
+	public String confirmOrder(@PathVariable int orderId, @RequestParam String razorpay_payment_id,
+			HttpSession session) {
+		return userService.confirmOrder(orderId, razorpay_payment_id,session);
+	}
+
 }

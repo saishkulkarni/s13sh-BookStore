@@ -28,4 +28,6 @@ public interface AdminService {
 	String editBook(HttpSession session, Book book, MultipartFile photo, MultipartFile bookPdf,
 			BindingResult result) throws IOException;
 
+	String createAdmin(String email, String password, HttpSession session); 
+
 }

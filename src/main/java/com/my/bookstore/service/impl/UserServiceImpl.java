@@ -120,7 +120,7 @@ public class UserServiceImpl implements UserService {
 		} else {
 			Book book = bookDao.findById(id);
 			if (book.getStock() >= 1) {
-				RazorpayClient razorpay = new RazorpayClient("rzp_test_71gEcjP0fsIjdi", "123F4USJtRwCeLden4tP7wpnYiF");
+				RazorpayClient razorpay = new RazorpayClient("rzp_test_71gEcjP0fsIjdi", "F4USJtRwCeLden4tP7wpnYiF");
 				JSONObject orderRequest = new JSONObject();
 				orderRequest.put("amount", book.getPrice() * 100);
 				orderRequest.put("currency", "INR");
@@ -151,5 +151,22 @@ public class UserServiceImpl implements UserService {
 			}
 		}
 
+	}
+
+	@Override
+	public String confirmOrder(int orderId, String razorpay_payment_id, HttpSession session) {
+		BookOrder bookOrder = bookDao.findOrderById(orderId);
+		if (razorpay_payment_id != null) {
+			bookOrder.setPaymentId(razorpay_payment_id);
+			bookDao.saveBookOrder(bookOrder);
+			session.setAttribute("successMessage", "Order Placed Success");
+			Book book = bookOrder.getBook();
+			book.setStock(book.getStock() - 1);
+			bookDao.saveBook(book);
+			return "redirect:/";
+		} else {
+			session.setAttribute("failMessage", "Payment Failed try Again After Some time");
+			return "redirect:/";
+		}
 	}
 }

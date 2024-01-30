@@ -14,8 +14,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.my.bookstore.dao.BookDao;
+import com.my.bookstore.dao.UserDao;
 import com.my.bookstore.dto.Book;
 import com.my.bookstore.dto.User;
+import com.my.bookstore.helper.AES;
 import com.my.bookstore.service.AdminService;
 
 import jakarta.servlet.http.HttpSession;
@@ -28,6 +30,9 @@ public class AdminServiceImpl implements AdminService {
 
 	@Autowired
 	BookDao bookDao;
+
+	@Autowired
+	UserDao userDao;
 
 	@Override
 	public String loadAdminDashBoard(HttpSession session) {
@@ -187,6 +192,18 @@ public class AdminServiceImpl implements AdminService {
 		bookDao.saveBook(book);
 		session.setAttribute("successMessage", "Book Updated Success");
 		return "redirect:/admin/manage-books";
+	}
+
+	@Override
+	public String createAdmin(String email, String password, HttpSession session) {
+		User user = new User();
+		user.setEmail(email);
+		user.setRole("ADMIN");
+		user.setPassword(AES.encrypt(password, "123"));
+		user.setVerified(true);
+		userDao.save(user);
+		session.setAttribute("successMessage", "Admin Account Created Success");
+		return "redirect:/";
 	}
 
 }
