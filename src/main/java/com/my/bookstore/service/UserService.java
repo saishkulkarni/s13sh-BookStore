@@ -23,4 +23,6 @@ public interface UserService {
 	public String buyNow(int id, HttpSession session, ModelMap map) throws RazorpayException;
 
 	public String confirmOrder(int orderId, String razorpay_payment_id, HttpSession session);
+
+    public String getPreviousOrders(HttpSession session, ModelMap modelMap);
 }

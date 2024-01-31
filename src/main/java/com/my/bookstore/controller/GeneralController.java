@@ -91,7 +91,12 @@ public class GeneralController {
 	@PostMapping("/confirm-order/{orderId}")
 	public String confirmOrder(@PathVariable int orderId, @RequestParam String razorpay_payment_id,
 			HttpSession session) {
-		return userService.confirmOrder(orderId, razorpay_payment_id,session);
+		return userService.confirmOrder(orderId, razorpay_payment_id, session);
+	}
+
+	@GetMapping("/previous-orders")
+	public String viewPreviousOrders(HttpSession session, ModelMap modelMap) {
+		return userService.getPreviousOrders(session, modelMap);
 	}
 
 }

@@ -1,0 +1,36 @@
+body {
+    background-color: #f8f9fa;
+    font-family: "Arial", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 400px;
+    margin: 10px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #007bff;
+}
+
+form {
+    margin-top: 20px;
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+span.error-message {
+    color: red;
+    font-size: 10px;
+    /* Adjust the font size as needed */
+    margin-top: 5px;
+}

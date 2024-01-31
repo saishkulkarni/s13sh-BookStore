@@ -1,0 +1,18 @@
+<div
+  th:if="${session.successMessage}"
+  class="alert alert-success"
+  role="alert"
+  id="successAlert"
+>
+  <span th:text="${session.successMessage}"></span>
+  <th:block th:text="${@sessionManager.removeSuccessMessage()}"></th:block>
+</div>
+<div
+  th:if="${session.failMessage}"
+  class="alert alert-danger"
+  role="alert"
+  id="successAlert"
+>
+  <span th:text="${session.failMessage}"></span>
+  <th:block th:text="${@sessionManager.removeFailMessage()}"></th:block>
+</div>

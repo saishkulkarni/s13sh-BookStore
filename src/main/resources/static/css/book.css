@@ -1,0 +1,33 @@
+body {
+    background-color: #f8f9fa;
+    font-family: "Arial", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1300px;
+    margin: 20px auto;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+h1 {
+    color: #007bff;
+}
+
+.book-card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    max-width: 300px;
+    /* Set a maximum width for the cards */
+}
+
+.book-image {
+    text-align: center;
+}

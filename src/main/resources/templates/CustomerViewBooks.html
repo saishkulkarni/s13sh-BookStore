@@ -1,121 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <th:block th:insert="~{/fragments/commoncss}"></th:block>
     <title>Book Store - View Books</title>
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-    />
-    <style>
-      body {
-        background-color: #f8f9fa;
-        font-family: "Arial", sans-serif;
-        margin: 0;
-        padding: 0;
-      }
-
-      .navbar {
-        background-color: #007bff;
-      }
-
-      .navbar-brand {
-        color: #ffffff;
-        font-size: 1.5rem;
-        font-weight: bold;
-      }
-
-      .container {
-        max-width: 1300px;
-        margin: 20px auto;
-        background-color: #ffffff;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-      }
-
-      h1 {
-        color: #007bff;
-      }
-
-      .book-card {
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        padding: 10px;
-        margin-bottom: 20px;
-        background-color: #fff;
-        max-width: 300px;
-        /* Set a maximum width for the cards */
-      }
-
-      .book-image {
-        text-align: center;
-      }
-
-      .footer {
-        background-color: #343a40;
-        color: #ffffff;
-        padding: 10px;
-        text-align: center;
-      }
-    </style>
+    <link rel="stylesheet" href="/css/book.css" />
   </head>
 
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark">
-      <a class="navbar-brand" href="/">Book Store</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
+    <th:block th:insert="~{/fragments/navbar}"></th:block>
+    <th:block th:insert="~{/fragments/message}"></th:block>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
-          <li class="nav-item">
-            <a class="nav-link" href="/books">Books</a>
-          </li>
-        </ul>
-        <div th:if="${session.user==null}">
-          <a href="/signin" class="btn btn-outline-light ml-2">Sign In</a>
-          <a href="/signup" class="btn btn-light ml-2">Sign Up</a>
-        </div>
-        <div th:if="${session.user}">
-          <div th:if="${session.user.role=='ADMIN'}">
-            <a href="/admin" class="btn btn-secondary ml-2">Admin Dashboard</a>
-          </div>
-        </div>
-        <div th:if="${session.user}">
-          <a href="/logout" class="btn btn-outline-light ml-2">Logout</a>
-        </div>
-      </div>
-    </nav>
-    <div
-      th:if="${session.successMessage}"
-      class="alert alert-success"
-      role="alert"
-      id="successAlert"
-    >
-      <span th:text="${session.successMessage}"></span>
-      <th:block th:text="${@sessionManager.removeSuccessMessage()}"></th:block>
-    </div>
-    <div
-      th:if="${session.failMessage}"
-      class="alert alert-danger"
-      role="alert"
-      id="successAlert"
-    >
-      <span th:text="${session.failMessage}"></span>
-      <th:block th:text="${@sessionManager.removeFailMessage()}"></th:block>
-    </div>
     <div class="container mt-4">
       <h1>View Books</h1>
 
@@ -144,7 +38,9 @@
               >
               <th:block th:if="${session.user}">
                 <th:block th:if="${book.stock!=0}">
-                  <a th:href="'/buy-now/'+${book.id}"><button>Buy Now</button></a>
+                  <a th:href="'/buy-now/'+${book.id}"
+                    ><button>Buy Now</button></a
+                  >
                 </th:block>
                 <th:block th:if="${book.stock==0}">
                   <a><button disabled>Out of Stock</button></a>
@@ -160,15 +56,6 @@
       </div>
     </div>
 
-    <footer
-      class="py-3 text-center fixed-bottom"
-      style="background-color: #343a40; color: #ffffff"
-    >
-      &copy; 2024 Book Store
-    </footer>
-
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <th:block th:insert="~{/fragments/footer}"></th:block>
   </body>
 </html>

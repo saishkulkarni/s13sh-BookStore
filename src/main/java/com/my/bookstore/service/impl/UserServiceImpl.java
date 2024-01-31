@@ -169,4 +169,22 @@ public class UserServiceImpl implements UserService {
 			return "redirect:/";
 		}
 	}
+
+	@Override
+	public String getPreviousOrders(HttpSession session, ModelMap map) {
+		User user = (User) session.getAttribute("user");
+		if (user == null) {
+			session.setAttribute("failMessage", "Invalid Session");
+			return "redirect:/";
+		} else {
+			List<BookOrder> bookOrders = user.getBookOrders();
+			if (bookOrders == null || bookOrders.isEmpty()) {
+				session.setAttribute("failMessage", "No Orders Yet");
+				return "redirect:/";
+			} else {
+				map.put("bookOrders", bookOrders);
+				return "ViewOrders";
+			}
+		}
+	}
 }
