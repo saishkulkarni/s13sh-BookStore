@@ -8,7 +8,24 @@
     <th:block th:insert="~{/fragments/navbar}"></th:block>
     <th:block th:insert="~{/fragments/message}"></th:block>
     <div class="container">
-        
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Book Name</th>
+            <th>Amount</th>
+            <th>Currency</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="order : ${bookOrders}">
+            <td th:text="${order.orderId}"></td>
+            <td th:text="${order.book.name}"></td>
+            <td th:text="${order.amount}"></td>
+            <td th:text="${order.currency}"></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
     <th:block th:insert="~{/fragments/footer}"></th:block>
   </body>
