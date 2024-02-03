@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
-    <th:block th:insert="~{/fragments/commoncss}"></th:block>
+    <th:block th:insert="~{fragments/commoncss}"></th:block>
     <title>OTP Verification</title>
     <link rel="stylesheet" href="/css/enterotp.css" />
   </head>
 
   <body>
-    <th:block th:insert="~{/fragments/message}"></th:block>
+    <th:block th:insert="~{fragments/message}"></th:block>
     
       <div class="form-container">
         <form action="/verify-otp" method="post">
@@ -29,7 +29,7 @@
       </div>
     </div>
 
-       <th:block th:insert="~{/fragments/footer}"></th:block>
+       <th:block th:insert="~{fragments/footer}"></th:block>
 
     <script src="/js/resend.js"></script>
     
